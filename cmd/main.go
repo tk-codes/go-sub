@@ -8,7 +8,7 @@ import (
 
 func main() {
 	viper.AutomaticEnv()
-	viper.SetDefault("env", "local")
+	viper.SetDefault("env", "local v2")
 
 	fmt.Printf("Hello World\n")
 }
