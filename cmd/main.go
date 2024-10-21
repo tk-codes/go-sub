@@ -13,5 +13,5 @@ func main() {
 
 	fmt.Printf("Hello World\n")
 
-	fmt.Printf("Result 1 + 2 is %d", math.Add(1, 2))
+	fmt.Printf("Result 1 + 3 is %d", math.Add(1, 3))
 }
