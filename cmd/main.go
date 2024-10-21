@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/spf13/viper"
-	"github.com/tk-codes/go-sub/v2/pkg/math/v2"
+	"github.com/tk-codes/go-sub/pkg/math/v2"
 )
 
 func main() {

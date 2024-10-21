@@ -4,7 +4,7 @@ go 1.23.2
 
 require (
 	github.com/spf13/viper v1.19.0
-	github.com/tk-codes/go-sub/v2/pkg/math/v2 v2.0.0-20241021153802-6e82c8f779da
+	github.com/tk-codes/go-sub/pkg/math/v2 v2.8.0
 )
 
 require (
