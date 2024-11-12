@@ -1,0 +1,30 @@
+name: Create Submodule
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  create-tag:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Set up Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Extract Tag from Release
+        id: extract_tag
+        run: |
+          tag_name="${{ github.event.release.tag_name }}"
+          echo "tag_name=$tag_name" >> $GITHUB_ENV
+
+      - name: Create and Push New Tag
+        run: |
+          new_tag="pkg/math/${{ env.tag_name }}"
+          git tag "$new_tag"
+          git push origin "$new_tag"
