@@ -23,7 +23,7 @@ jobs:
       - name: Get the previous tag
         id: get_prev_tag
         run: |
-          tags=$(git tag --list 'pkg/math/v*' --sort=-creatordate)
+          tags=$(git tag --list 'pkg/math/v*' --sort=-creatordate | xargs -n 1 echo)
           echo $tags
           # Get the last submodule tag
           PREV_TAG=$(echo $tags | head -n 1)
