@@ -25,8 +25,8 @@ jobs:
         run: |
           tags=$(git tag --list 'pkg/math/v*' --sort=-creatordate)
           echo $tags
-          # Get the previous tag
-          PREV_TAG=$(echo $tags | tail -n +2 | head -n 1)
+          # Get the last submodule tag
+          PREV_TAG=$(echo $tags | head -n 1)
           echo "Current tag is ${{ github.ref_name }}"
           echo "Previous tag is $PREV_TAG"
           echo "PREV_TAG=$PREV_TAG" >> $GITHUB_ENV
