@@ -35,7 +35,7 @@ jobs:
         run: |
           git diff --name-only ${{ env.PREV_TAG }} HEAD -- pkg/math
           # Compare changes between the previous tag and the current tag in the target folder
-          if git diff --name-only ${{ env.PREV_TAG }} HEAD -- pkg/math | grep -q .; then
+          if git diff --name-only ${{ env.PREV_TAG }} ${{ github.ref_name }} -- pkg/math | grep -q .; then
             echo "Changes detected in the submodule"
             echo "SUBMODULE_CHANGED=true" >> "$GITHUB_OUTPUT"
           else
