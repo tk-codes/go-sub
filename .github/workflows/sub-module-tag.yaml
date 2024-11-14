@@ -9,8 +9,39 @@ permissions:
   contents: write  # Grant write permissions to allow creating and pushing tags
 
 jobs:
-  create-tag:
+  check-changes:
     runs-on: ubuntu-latest
+    outputs:
+      folder_changed: ${{ steps.check_changes.outputs.folder_changed }}
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v3
+
+      - name: Get the previous tag
+        id: get_prev_tag
+        run: |
+          # Get the latest tag before the current one
+          PREV_TAG=$(git describe --tags --abbrev=0 --match='v*' $(git rev-list --tags --skip=1 --max-count=1))
+          echo "Previous tag is $PREV_TAG"
+          echo "::set-output name=prev_tag::$PREV_TAG"
+
+      - name: Check for changes in the folder
+        id: check_changes
+        run: |
+          # Compare changes between the previous tag and the current tag in the target folder
+          if git diff --name-only ${{ steps.get_prev_tag.outputs.prev_tag }} HEAD -- pkg/math | grep -q .; then
+            echo "Changes detected in the submodule"
+            echo "::set-output name=folder_changed::true"
+          else
+            echo "No changes in the submodule"
+            echo "::set-output name=folder_changed::false"
+          fi  
+
+  create-tag:
+    name: Create submodule package tag
+    needs: check-changes
+    runs-on: ubuntu-latest
+    if: needs.check-changes.outputs.folder_changed == 'true'
 
     steps:
       - name: Checkout the repository
