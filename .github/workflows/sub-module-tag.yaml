@@ -28,6 +28,7 @@ jobs:
           git tag --list 'v*' --sort=-creatordate
           # Get the previous tag before the current one
           PREV_TAG=$(git tag --list 'v*' --sort=-creatordate | tail -n +2 | head -n 1)
+          echo "Current tag is ${{ github.ref_name }}"
           echo "Previous tag is $PREV_TAG"
           echo "PREV_TAG=$PREV_TAG" >> $GITHUB_ENV
 
