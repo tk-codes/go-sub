@@ -35,13 +35,14 @@ jobs:
       - name: Check for changes in the folder
         id: check_changes
         run: |
+          git diff --name-only ${{ env.PREV_TAG }} HEAD -- pkg/math
           # Compare changes between the previous tag and the current tag in the target folder
           if git diff --name-only ${{ env.PREV_TAG }} HEAD -- pkg/math | grep -q .; then
             echo "Changes detected in the submodule"
-            echo "SUBMODULE_CHANGED=true" >> $GITHUB_OUTPUT"
+            echo "SUBMODULE_CHANGED=true" >> "$GITHUB_OUTPUT"
           else
             echo "No changes in the submodule"
-            echo "SUBMODULE_CHANGED=false" >> $GITHUB_OUTPUT"
+            echo "SUBMODULE_CHANGED=false" >> "$GITHUB_OUTPUT"
           fi  
 
   create-tag:
