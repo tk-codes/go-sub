@@ -23,9 +23,10 @@ jobs:
       - name: Get the previous tag
         id: get_prev_tag
         run: |
-          git tag --list 'v*' --sort=-creatordate
-          # Get the previous tag before the current one
-          PREV_TAG=$(git tag --list 'v*' --sort=-creatordate | tail -n +2 | head -n 1)
+          tags=$(git tag --list 'pkg/math/v*' --sort=-creatordate)
+          echo $tags
+          # Get the previous tag
+          PREV_TAG=$(echo $tags | tail -n +2 | head -n 1)
           echo "Current tag is ${{ github.ref_name }}"
           echo "Previous tag is $PREV_TAG"
           echo "PREV_TAG=$PREV_TAG" >> $GITHUB_ENV
@@ -33,9 +34,10 @@ jobs:
       - name: Check for changes in the folder
         id: check_changes
         run: |
-          git diff --name-only ${{ env.PREV_TAG }} HEAD -- pkg/math
+          changes=$(git diff --name-only ${{ env.PREV_TAG }} ${{ github.ref_name }} -- pkg/math)
+          echo $changes
           # Compare changes between the previous tag and the current tag in the target folder
-          if git diff --name-only ${{ env.PREV_TAG }} ${{ github.ref_name }} -- pkg/math | grep -q .; then
+          if echo $changes | grep -q .; then
             echo "Changes detected in the submodule"
             echo "SUBMODULE_CHANGED=true" >> "$GITHUB_OUTPUT"
           else
