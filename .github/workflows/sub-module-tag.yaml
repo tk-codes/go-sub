@@ -20,8 +20,8 @@ jobs:
       - name: Get the previous tag
         id: get_prev_tag
         run: |
-          # Get the latest tag before the current one
-          PREV_TAG=$(git describe --tags --abbrev=0 --match='v*' $(git rev-list --tags --skip=1 --max-count=1))
+          # Get the previous tag before the current one
+          PREV_TAG=$(git tag --list 'v*' --sort=-creatordate | tail -n +2 | head -n 1)
           echo "Previous tag is $PREV_TAG"
           echo "::set-output name=prev_tag::$PREV_TAG"
 
