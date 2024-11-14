@@ -22,7 +22,9 @@ jobs:
       - name: Get the previous tag
         id: get_prev_tag
         run: |
-          git tag --list 'v*' --sort=-creatordate
+          echo "test"
+          git tag --list
+          git tag origin --list 'v*' --sort=-creatordate
           # Get the previous tag before the current one
           PREV_TAG=$(git tag origin --list 'v*' --sort=-creatordate | tail -n +2 | head -n 1)
           echo "Previous tag is $PREV_TAG"
